@@ -1279,6 +1279,10 @@ type pairStorageQuerySignHTTPWrite struct {
 	EncryptionCustomerKey          []byte
 	HasStorageClass                bool
 	StorageClass                   string
+	HasCacheControl                bool
+	CacheControl                   string
+	HasContentEncoding             bool
+	ContentEncoding                string
 }
 
 // parsePairStorageQuerySignHTTPWrite will parse Pair slice into *pairStorageQuerySignHTTPWrite
@@ -1323,6 +1327,20 @@ func (s *Storage) parsePairStorageQuerySignHTTPWrite(opts []Pair) (pairStorageQu
 			}
 			result.HasStorageClass = true
 			result.StorageClass = v.Value.(string)
+			continue
+		case "cache_control":
+			if result.HasCacheControl {
+				continue
+			}
+			result.HasCacheControl = true
+			result.CacheControl = v.Value.(string)
+			continue
+		case "content_encoding":
+			if result.HasContentEncoding {
+				continue
+			}
+			result.HasContentEncoding = true
+			result.ContentEncoding = v.Value.(string)
 			continue
 		default:
 			return pairStorageQuerySignHTTPWrite{}, services.PairUnsupportedError{Pair: v}
