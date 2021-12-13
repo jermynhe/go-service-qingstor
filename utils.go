@@ -463,6 +463,15 @@ func (s *Storage) formatPutObjectInput(size int64, opt pairStorageWrite) (input 
 	if opt.HasContentMd5 {
 		input.ContentMD5 = service.String(opt.ContentMd5)
 	}
+	if opt.HasContentType {
+		input.ContentType = service.String(opt.ContentType)
+	}
+	if opt.HasContentEncoding {
+		input.ContentEncoding = service.String(opt.ContentEncoding)
+	}
+	if opt.HasCacheControl {
+		input.CacheControl = service.String(opt.CacheControl)
+	}
 	if opt.HasStorageClass {
 		input.XQSStorageClass = service.String(opt.StorageClass)
 	}

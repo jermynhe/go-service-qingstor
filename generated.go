@@ -1493,6 +1493,10 @@ type pairStorageWrite struct {
 	IoCallback                     func([]byte)
 	HasStorageClass                bool
 	StorageClass                   string
+	HasCacheControl                bool
+	CacheControl                   string
+	HasContentEncoding             bool
+	ContentEncoding                string
 }
 
 // parsePairStorageWrite will parse Pair slice into *pairStorageWrite
@@ -1544,6 +1548,20 @@ func (s *Storage) parsePairStorageWrite(opts []Pair) (pairStorageWrite, error) {
 			}
 			result.HasStorageClass = true
 			result.StorageClass = v.Value.(string)
+			continue
+		case "cache_control":
+			if result.HasCacheControl {
+				continue
+			}
+			result.HasCacheControl = true
+			result.CacheControl = v.Value.(string)
+			continue
+		case "content_encoding":
+			if result.HasContentEncoding {
+				continue
+			}
+			result.HasContentEncoding = true
+			result.ContentEncoding = v.Value.(string)
 			continue
 		default:
 			return pairStorageWrite{}, services.PairUnsupportedError{Pair: v}
